@@ -1,11 +1,20 @@
 import fastify from 'fastify'
+import crypto from 'node:crypto'
 import { knex } from './database'
 const app = fastify()
 // com a variável app fazemos toda a estrutura de funcionalidades e rotas
 app.get('/hello', async () => {
-  // 2º param da função: a resposta
-  const tables = await knex('sqlite_schema').select('*')
-  return tables
+  // Inserindo uma transação na tabela
+  const transaction = await knex('transactions')
+    .insert({
+      id: crypto.randomUUID(),
+      title: 'Transação de teste',
+      amount: 1000,
+    })
+    // retornando as informações inseridas
+    .returning('*')
+
+  return transaction
 })
 
 app
