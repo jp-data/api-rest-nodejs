@@ -1,6 +1,8 @@
 import fastify from 'fastify'
 import crypto from 'node:crypto'
 import { knex } from './database'
+import { env } from './env'
+
 const app = fastify()
 // com a variável app fazemos toda a estrutura de funcionalidades e rotas
 app.get('/hello', async () => {
@@ -17,9 +19,18 @@ app.get('/hello', async () => {
   return transaction
 })
 
+// buscando as transações inseridas na tabela
+app.get('/transactions', async () => {
+  const transaction = await knex('transactions')
+    // condição
+    .where('amount', 1000)
+    .select('*')
+  return transaction
+})
+
 app
   .listen({
-    port: 3333,
+    port: env.PORT,
     // 'listen' retorna uma promise / 'then' espera a execução da promise e retorna a mensagem de servidor ok
   })
   .then(() => {
