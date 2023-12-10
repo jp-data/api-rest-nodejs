@@ -18,6 +18,6 @@ Regras de Negócios(RN)
 
 [] Será possível identificar o usuário entre as requisições;
 
-[] O usuário só poderá visualizar transações que ele criou;
+[x] O usuário só poderá visualizar transações que ele criou;
 
 
