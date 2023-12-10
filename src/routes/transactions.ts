@@ -44,11 +44,25 @@ app.get('/summary', async () => {
     const { title, amount, type } = createTransactionBodySchema.parse(
       request.body,
     )
+
+    //buscando uma session id 
+    let sessionId = request.cookies.sessionId
+    // caso não exista criamos uma
+    if (!sessionId) {
+      sessionId = randomUUID()
+
+      reply.cookie('sessionId', sessionId, {
+        path: '/',
+        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 dias
+      })
+    }
+
     // inserindo uma transação na tabela
     await knex('transactions').insert({
       id: randomUUID(),
       title,
       amount: type === 'credit' ? amount : amount * -1,
+      session_id: sessionId,
     })
 
     return reply.status(201).send()
