@@ -4,7 +4,7 @@ import { knex } from '../database'
 import { randomUUID } from 'node:crypto'
 
 export async function transactionsRoutes(app: FastifyInstance) {
-  // listagem dos dados
+  // listagem das transações
   app.get('/', async () => {
     const transactions = await knex('transactions').select('*')
 
@@ -25,14 +25,22 @@ export async function transactionsRoutes(app: FastifyInstance) {
     return { transaction }
 })
 
+// resumo das transações
+app.get('/summary', async () => {
+  const summary = await knex('transactions')
+  .sum('amount', { as: 'amount'})
+  .first()
+  
+  return {summary}
+})
+
   app.post('/', async (request, reply) => {
-    // buscando o dado da requisição
     const createTransactionBodySchema = z.object({
       title: z.string(),
       amount: z.number(),
       type: z.enum(['credit', 'debit']),
     })
-    // validando os dados do req.body de acordo com o definido
+    // validando os dados do req.body de acordo com o definido c/ o zod
     const { title, amount, type } = createTransactionBodySchema.parse(
       request.body,
     )
