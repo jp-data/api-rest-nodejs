@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto'
 import { checkSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function transactionsRoutes(app: FastifyInstance) {
+
   // listagem das transações
   app.get(
     '/',
@@ -12,7 +13,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
       preHandler: [checkSessionIdExists]
     },
 
-    async (request, reply) => {
+    async (request) => {
 
       const { sessionId } = request.cookies
 
@@ -30,7 +31,7 @@ export async function transactionsRoutes(app: FastifyInstance) {
       preHandler: [checkSessionIdExists]
     },
 
-    async (request, reply) => {
+    async (request) => {
       // validando o tipo do dado recebido em ID
       const getTransactionsParamsSchema = z.object({
         id: z.string().uuid(),

@@ -7,7 +7,8 @@
     "dev": "tsx watch src/server.ts",
     "knex": "node --no-warnings --loader tsx ./node_modules/knex/bin/cli.js --knexfile ./knexfile.ts",
     "lint": "eslint src --ext .ts --fix",
-    "eslint:fix": "eslint --ext .js,.ts src --fix"
+    "eslint:fix": "eslint --ext .js,.ts src --fix",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,10 @@
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.1.0",
     "@types/node": "^20.9.2",
+    "@types/supertest": "^2.0.16",
     "eslint": "^8.54.0",
-    "tsx": "^4.1.4"
+    "supertest": "^6.3.3",
+    "tsx": "^4.1.4",
+    "vitest": "^1.0.4"
   }
 }
