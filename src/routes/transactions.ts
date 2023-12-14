@@ -40,12 +40,12 @@ export async function transactionsRoutes(app: FastifyInstance) {
       const { id } = getTransactionsParamsSchema.parse(request.params)
       const { sessionId } = request.cookies
 
-      const transaction = await knex('transactions')
+      const transactions = await knex('transactions')
         .where('id', id)
         .andWhere('session_id', sessionId)
         .first()
 
-      return { transaction }
+      return { transactions }
     })
 
   // resumo das transações
