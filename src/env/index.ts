@@ -1,8 +1,13 @@
 // lendo o arquivo dotenv
-import 'dotenv/config'
+import { config } from 'dotenv'
 // módulo para criar um schema
 import { z } from 'zod'
 
+if (process.env.NODE_ENV === 'test') {
+  config({ path: '.env.test'})
+} else {
+  config
+}
 // formato dos dados que receberemos em process.env
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
